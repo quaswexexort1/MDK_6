@@ -2,50 +2,49 @@
 {
     public static double NormOfMatrixCalculator__M(double[,] matrix)
     {
-        int rows = matrix.GetLength(0);                              // Количество строк в матрице
-        int cols = matrix.GetLength(1);                             // Количество столбцов в матрице
+        int rows = matrix.GetLength(0);                    
+        int cols = matrix.GetLength(1);                   
+        double maximumSummaStolbov = 0;                   
 
-        double maximumSummaStolbov = 0;                           // Инициализируем максимальную сумму столбца
-
-                                                                  // Перебираем столбцы матрицы
+                                                            
         for (int j = 0; j < cols; j++)
         {
-            double SummaStolbov = 0;                               // Инициализируем сумму элементов текущего столбца
+            double SummaStolbov = 0;                             
 
-                                                                // Перебираем строки в текущем столбце
+                                                               
             for (int i = 0; i < rows; i++)
             {
-                SummaStolbov += Math.Abs(matrix[i, j]);           // Добавляем модуль элемента к сумме столбца
+                SummaStolbov += Math.Abs(matrix[i, j]);          
             }
 
-            maximumSummaStolbov = Math.Max(maximumSummaStolbov, SummaStolbov); // Обновляем максимальную сумму, если текущая больше
+            maximumSummaStolbov = Math.Max(maximumSummaStolbov, SummaStolbov); 
         }
          
-        return maximumSummaStolbov;                                 // Возвращаем максимальную сумму столбца
+        return maximumSummaStolbov;                                
     }
 
     public static double NormOfMatrixCalculator__L(double[,] matrix)
     {
-        int rows = matrix.GetLength(0);                                            // Количество строк в матрице
-        int cols = matrix.GetLength(1);                                       // Количество столбцов в матрице
+        int rows = matrix.GetLength(0);                                         
+        int cols = matrix.GetLength(1);                                   
 
-        double MaximumSummaStrok = 0;                                         // Инициализируем максимальную сумму строки
+        double MaximumSummaStrok = 0;                                      
 
         // Перебираем строки матрицы
         for (int i = 0; i < rows; i++)
         {
-            double SummaStrok = 0;                                           // Инициализируем сумму элементов текущей строки
+            double SummaStrok = 0;                                      
 
-                                                                            // Перебираем столбцы в текущей строке
+                                                                         
             for (int j = 0; j < cols; j++)
             {
-                SummaStrok += Math.Abs(matrix[i, j]);                     // Добавляем модуль элемента к сумме строки
+                SummaStrok += Math.Abs(matrix[i, j]);                    
             }
 
-            MaximumSummaStrok = Math.Max(MaximumSummaStrok, SummaStrok); // Обновляем максимальную сумму, если текущая больше
+            MaximumSummaStrok = Math.Max(MaximumSummaStrok, SummaStrok);
         }
 
-        return MaximumSummaStrok;                                          // Возвращаем максимальную сумму строки
+        return MaximumSummaStrok;                                        
     }
 }
 
