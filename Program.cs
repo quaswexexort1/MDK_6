@@ -1,68 +1,72 @@
-﻿public static class Matrix
+using System;
+
+class Program
 {
-    public static double NormOfMatrixCalculator__M(double[,] matrix)
+    // Объявляем делегат для функции-фильтра
+    delegate bool NumberFilter(int number);
+    
+    // Объявляем делегат для функции суммирования
+    delegate int ArraySum(int[] array, NumberFilter filter);
+
+    static void Main()
     {
-        int rows = matrix.GetLength(0);                    
-        int cols = matrix.GetLength(1);                   
-        double maximumSummaStolbov = 0;                   
+        int[] numbers = { -5, 10, -3, 8, -1, 15, 0, -7 };
+        
+        // 1. Использование именованных методов
+        ArraySum sumCalculator = CalculateSum;
+        NumberFilter positiveFilter = IsPositive;
+        NumberFilter negativeFilter = IsNegative;
+        
+        Console.WriteLine($"Сумма положительных: {sumCalculator(numbers, positiveFilter)}");
+        Console.WriteLine($"Сумма отрицательных: {sumCalculator(numbers, negativeFilter)}");
+        Console.WriteLine();
 
-                                                            
-        for (int j = 0; j < cols; j++)
+        // 2. Использование анонимных методов
+        ArraySum sumAnonymous = delegate(int[] arr, NumberFilter filter)
         {
-            double SummaStolbov = 0;                             
-
-                                                               
-            for (int i = 0; i < rows; i++)
+            int sum = 0;
+            foreach (int num in arr)
             {
-                SummaStolbov += Math.Abs(matrix[i, j]);          
+                if (filter(num)) sum += num;
             }
-
-            maximumSummaStolbov = Math.Max(maximumSummaStolbov, SummaStolbov); 
-        }
-         
-        return maximumSummaStolbov;                                
-    }
-
-    public static double NormOfMatrixCalculator__L(double[,] matrix)
-    {
-        int rows = matrix.GetLength(0);                                         
-        int cols = matrix.GetLength(1);                                   
-
-        double MaximumSummaStrok = 0;                                      
-
-        // Перебираем строки матрицы
-        for (int i = 0; i < rows; i++)
-        {
-            double SummaStrok = 0;                                      
-
-                                                                         
-            for (int j = 0; j < cols; j++)
-            {
-                SummaStrok += Math.Abs(matrix[i, j]);                    
-            }
-
-            MaximumSummaStrok = Math.Max(MaximumSummaStrok, SummaStrok);
-        }
-
-        return MaximumSummaStrok;                                        
-    }
-}
-
-public class abc
-{
-    public static void Main()
-    {
-        double[,] matrix =
-        {
-            { 1, 2, -3 },
-            { -4, 5, 6 }
+            return sum;
         };
+        
+        NumberFilter positiveAnonymous = delegate(int n) { return n > 0; };
+        NumberFilter negativeAnonymous = delegate(int n) { return n < 0; };
+        
+        Console.WriteLine($"Сумма положительных (анонимный): {sumAnonymous(numbers, positiveAnonymous)}");
+        Console.WriteLine($"Сумма отрицательных (анонимный): {sumAnonymous(numbers, negativeAnonymous)}");
+        Console.WriteLine();
 
-        double normM = Matrix.NormOfMatrixCalculator__M(matrix);
-        double normL = Matrix.NormOfMatrixCalculator__L(matrix);
+        // 3. Использование лямбда-выражений
+        ArraySum sumLambda = (arr, filter) =>
+        {
+            int sum = 0;
+            foreach (int num in arr) 
+                if (filter(num)) sum += num;
+            return sum;
+        };
+        
+        NumberFilter positiveLambda = n => n > 0;
+        NumberFilter negativeLambda = n => n < 0;
+        
+        Console.WriteLine($"Сумма положительных (лямбда): {sumLambda(numbers, positiveLambda)}");
+        Console.WriteLine($"Сумма отрицательных (лямбда): {sumLambda(numbers, negativeLambda)}");
+    }
 
-        Console.WriteLine("||A||__M = " + normM); // Вывод: ||A||__M = 9
-        Console.WriteLine("||A||__L = " + normL); // Вывод: ||A||__L = 15
+    // Именованные функции-фильтры
+    static bool IsPositive(int number) => number > 0;
+    static bool IsNegative(int number) => number < 0;
+    
+    // Именованная функция суммирования
+    static int CalculateSum(int[] array, NumberFilter filter)
+    {
+        int sum = 0;
+        foreach (int num in array)
+        {
+            if (filter(num)) sum += num;
+        }
+        return sum;
     }
 }
-
