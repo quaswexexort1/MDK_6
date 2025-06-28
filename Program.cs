@@ -12,7 +12,7 @@ class Program
     {
         int[] numbers = { -5, 10, -3, 8, -1, 15, 0, -7 };
         
-        // 1. Использование именованных методов
+
         ArraySum sumCalculator = CalculateSum;
         NumberFilter positiveFilter = IsPositive;
         NumberFilter negativeFilter = IsNegative;
@@ -55,11 +55,10 @@ class Program
         Console.WriteLine($"Сумма отрицательных (лямбда): {sumLambda(numbers, negativeLambda)}");
     }
 
-    // Именованные функции-фильтры
+
     static bool IsPositive(int number) => number > 0;
     static bool IsNegative(int number) => number < 0;
-    
-    // Именованная функция суммирования
+
     static int CalculateSum(int[] array, NumberFilter filter)
     {
         int sum = 0;
